@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makeup Products Management System</title>
+    <style>
+  
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ebd5ce;
+            margin: 0;
+            padding: 0;
+            color: #141111;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #E1ACAC;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+       
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin-right: 5px;
+        }
+
+        .btn-primary {
+            background-color: #CA8787;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #A87676;
+        }
+
+        .btn-warning {
+            background-color: #E7CCCC;
+            color: black;
+        }
+
+        .btn-warning:hover {
+            background-color: #CA8787;
+        }
+
+        .btn-danger {
+            background-color: #E1ACAC;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #a32a2a;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .table th, .table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .table th {
+            background-color: #CA8787;
+            color: white;
+            font-weight: bold;
+        }
+
+        .table td {
+            color: #555;
+        }
+
+      
+        .table-striped tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+    
+        .table tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s;
+        }
+
+      
+        .empty-message {
+            text-align: center;
+            font-size: 16px;
+            color: #888;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .table th, .table td {
+                padding: 8px;
+            }
+
+            .btn {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Makeup Products</h2>
+    <a href="{% url 'product_create' %}" class="btn btn-primary mb-3">Add New Product</a>
+
+    {% if products %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.category.name }}</td>
+                <td>{{ product.brand }}</td>
+                <td>${{ product.price|floatformat:2 }}</td>
+                <td>{{ product.stock }}</td>
+                <td>{{ product.description|truncatechars:30 }}</td>
+                <td>
+                    <a href="{% url 'product_update' product.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'product_delete' product.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="empty-message">No products available.</p>
+    {% endif %}
+</div>
+</body>
+</html>
